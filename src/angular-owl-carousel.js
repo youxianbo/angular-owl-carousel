@@ -84,6 +84,7 @@
             return {
                 restrict: 'A',
                 scope: {
+                    data: '=owlCarousel',
                     owlOptions: '=owlOptions'
                 },
                 transclude: true,
@@ -92,7 +93,8 @@
                     var options = {},
                         $element = $(element),
                         owlCarousel = null,
-                        propertyName = attributes.owlCarousel;
+//                         propertyName = attributes.owlCarousel,
+                        propertyName = 'data';
 
                     for (var optionValue in owlOptions) {
                         var currentOptionValue = owlOptions[optionValue];
