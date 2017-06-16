@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular.module('angular-owl-carousel', [])
-        .directive('owlCarousel', function ($timeout) {
+        .directive('owlCarousel', ['$timeout', function ($timeout) {
             var owlOptions = [
                 'items',
                 'margin',
@@ -93,20 +93,18 @@
                     var options = {},
                         $element = $(element),
                         owlCarousel = null,
-//                         propertyName = attributes.owlCarousel,
+                        // propertyName = attributes.owlCarousel,
                         propertyName = 'data';
 
-                    for (var optionValue in owlOptions) {
-                        var currentOptionValue = owlOptions[optionValue];
-                        if (scope.owlOptions[currentOptionValue] !== undefined) {
-                            options[currentOptionValue] = scope.owlOptions[currentOptionValue];
+                    for (var i in scope.owlOptions) {
+                        if (owlOptions.indexOf(i) > -1) {
+                            options[i] = scope.owlOptions[i];
                         }
                     }
 
                     element.addClass('owl-carousel');
 
                     scope.$watchCollection(propertyName, function (newItems) {
-
                         if (owlCarousel) {
                             owlCarousel.destroy();
                         }
@@ -122,18 +120,16 @@
                         $timeout(function() {
                             $element.data('owl.carousel', null);
                             $element.owlCarousel(options);
-                            owlCarousel = $element.data('owlCarousel');
+                            owlCarousel = $element.data('owl.carousel');
                         }, 0);
 
-                        owlCarousel = $element.data('owlCarousel');
+                        owlCarousel = $element.data('owl.carousel');
                     });
 
                     scope.$on("$destroy", function () {
-                        if (owlCarousel) {
-                            owlCarousel.destroy();
-                        }
+                        owlCarousel.destroy();
                     });
                 }
             };
-        });
+        }]);
 })();
